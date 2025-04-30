@@ -86,10 +86,12 @@ public class PetStore
         {
             Dog foundDog = this.identifySoldDogFromInventory((Dog) soldPet);
             this.removePetFromInventoryByPetId(PetType.DOG, soldPet.getPetStoreId());
+            this.petsSold.add(foundDog);
             return foundDog;
         } else {
             Cat foundCat = this.identifySoldCatFromInventory((Cat) soldPet);
             this.removePetFromInventoryByPetId(PetType.CAT, soldPet.getPetStoreId());
+            this.petsSold.add(foundCat);
             return foundCat;
         }
     }
@@ -176,6 +178,10 @@ public class PetStore
     public List<Pet> getPetsForSale()
     {
         return petsForSale;
+    }
+
+    public List<Pet> getPetsSold() {
+        return petsSold;
     }
 
 }

@@ -2,8 +2,11 @@ package animals.petstore.pet;
 
 import animals.petstore.pet.attributes.Gender;
 import animals.petstore.pet.attributes.PetType;
+import org.junit.Test;
 
 import java.math.BigDecimal;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Pet class is a type really for Domestic Animals
@@ -84,5 +87,6 @@ public class Pet extends AbstractPet
         }
 
     }
+
 
 }

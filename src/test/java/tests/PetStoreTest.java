@@ -1,8 +1,10 @@
 package tests;
 
 import animals.AnimalType;
+import animals.petstore.pet.Pet;
 import animals.petstore.pet.attributes.Breed;
 import animals.petstore.pet.attributes.Gender;
+import animals.petstore.pet.attributes.PetType;
 import animals.petstore.pet.attributes.Skin;
 import animals.petstore.pet.types.Cat;
 import animals.petstore.pet.types.Dog;
@@ -130,4 +132,114 @@ public class PetStoreTest
         assertTrue(Numbers.isEven(number));
     }
 
+    @Test
+    void testPetConstructorWithAllArguments() {
+        PetType petType = PetType.CAT;
+        BigDecimal cost = new BigDecimal("100.00");
+        Gender gender = Gender.FEMALE;
+        int petStoreId = 123;
+
+        Pet pet = new Pet(petType, cost, gender, petStoreId);
+
+        assertEquals(petType, pet.getPetType());
+        assertEquals(cost, pet.getCost());
+        assertEquals(gender, pet.getGender());
+        assertEquals(petStoreId, pet.getPetStoreId());
+    }
+
+    @Test
+    void testPetToStringWithPetStoreId() {
+        Pet pet = new Pet(PetType.DOG, new BigDecimal("200.00"), Gender.MALE, 1);
+        String result = pet.toString();
+        assertTrue(result.contains("The DOG pet store id is 1"));
+    }
+
+    @Test
+    void testPetToStringWithoutPetStoreId() {
+        Pet pet = new Pet(PetType.CAT, new BigDecimal("100.00"), Gender.FEMALE);
+        String result = pet.toString();
+        assertTrue(result.contains("The type of pet is CAT"));
+    }
+
+    @Test
+    void testGetters() {
+        Pet pet = new Pet(PetType.DOG, new BigDecimal("150.00"), Gender.MALE);
+
+        assertEquals(new BigDecimal("150.00"), pet.getCost());
+        assertEquals(PetType.DOG, pet.getPetType());
+        assertEquals(Gender.MALE, pet.getGender());
+    }
+
+    @Test
+    void testPetHypoallergenic() {
+        Pet pet = new Pet(PetType.CAT, new BigDecimal("50.00"), Gender.FEMALE);
+
+        assertEquals("The pet is not hyperallergetic!", pet.petHypoallergenic(Skin.FUR));
+        assertEquals("The pet is hyperallergetic!", pet.petHypoallergenic(Skin.HAIR));
+        assertEquals("The pet skin is UNKNOWN at this time, so cannot determine if pet is hypoallergetic!", pet.petHypoallergenic(Skin.UNKNOWN));
+    }
+
+    @Test
+    public void testPetsSold() {
+        PetStore store = new PetStore();
+        store.init();
+
+        int initialSoldCount = store.getPetsSold().size();
+
+        Pet pet = new Dog(AnimalType.DOMESTIC, Skin.FUR, Gender.MALE, Breed.MALTESE, new BigDecimal("750.00"), 3);
+
+        store.addPetInventoryItem(pet);
+
+        try {
+            store.soldPetItem(pet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(initialSoldCount + 1, store.getPetsSold().size());
+    }
+
+    @Test
+    public void testPetNotFoundSaleExceptionCanBeThrown() {
+        String errorMessage = "Pet not found in the store";
+
+        // Simulate throwing the exception
+        PetNotFoundSaleException exception = assertThrows(PetNotFoundSaleException.class, () -> {
+            throw new PetNotFoundSaleException(errorMessage);
+        });
+
+        // Check if the exception message is correct
+        assertEquals(errorMessage, exception.getMessage(), "Error message should match");
+    }
+
+
+    @Test
+    void testCatSpeak() {
+        Cat cat = new Cat(AnimalType.DOMESTIC, Skin.FUR, Gender.FEMALE, Breed.SIAMESE);
+
+        assertEquals("The cat goes prr! prr!", cat.speak());
+    }
+
+    @Test
+    void testCatHypoallergenic() {
+        Cat cat = new Cat(AnimalType.DOMESTIC, Skin.HAIR, Gender.FEMALE, Breed.SIAMESE);
+
+        assertEquals("The cat is hyperallergetic!", cat.catHypoallergenic());
+    }
+
+    @Test
+    void testDogSpeak() {
+        Dog dog = new Dog(AnimalType.DOMESTIC, Skin.FUR, Gender.MALE, Breed.POODLE);
+
+        assertEquals("The dog goes woof! woof!", dog.speak());
+    }
+
+    @Test
+    void testDogHypoallergenic() {
+        Dog dog = new Dog(AnimalType.DOMESTIC, Skin.FUR, Gender.MALE, Breed.POODLE);
+
+        assertEquals("The dog is not hyperallergetic!", dog.dogHypoallergenic());
+    }
+
 }
+
