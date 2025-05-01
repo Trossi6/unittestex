@@ -6,6 +6,7 @@ import animals.petstore.pet.attributes.Breed;
 import animals.petstore.pet.attributes.Gender;
 import animals.petstore.pet.attributes.PetType;
 import animals.petstore.pet.attributes.Skin;
+import animals.petstore.pet.types.Bird;
 import animals.petstore.pet.types.Cat;
 import animals.petstore.pet.types.Dog;
 import animals.petstore.store.DuplicatePetStoreRecordException;
@@ -240,6 +241,36 @@ public class PetStoreTest
 
         assertEquals("The dog is not hyperallergetic!", dog.dogHypoallergenic());
     }
+
+    @Test
+    public void testBirdCreationAndBehavior() {
+        Bird bird = new Bird(
+                AnimalType.DOMESTIC,
+                Skin.FEATHERS,
+                Gender.FEMALE,
+                Breed.PARROT,
+                new BigDecimal("99.99"),
+                1
+        );
+
+        // Verify basic attributes
+        assertEquals(Breed.PARROT, bird.getBreed());
+        assertEquals(AnimalType.DOMESTIC, bird.getAnimalType());
+        assertEquals(Skin.FEATHERS, bird.getSkinType());
+        assertEquals(2, bird.getNumberOfLegs());
+        assertEquals("The bird goes tweet! tweet!", bird.speak());
+
+        // Test hypoallergenic output
+        assertTrue(bird.birdHypoallergenic().contains("bird"));
+
+        // Test string output includes expected parts
+        String description = bird.toString();
+        assertTrue(description.contains("bird is DOMESTIC"));
+        assertTrue(description.contains("breed is PARROT"));
+        assertTrue(description.contains("tweet! tweet!"));
+        assertTrue(description.contains("Birds have 2 legs"));
+    }
+
 
 }
 
