@@ -20,13 +20,19 @@ public class PetStore
 {
     private List<Pet> petsForSale;
 
-    private List<Pet> petsSold;
+
 
     public PetStore()
     {
         petsForSale = new ArrayList<>();
         petsSold = new ArrayList<>();
 
+    }
+
+    private List<Pet> petsSold = new ArrayList<>();
+
+    public List<Pet> getPetsSold() {
+        return petsSold;
     }
 
     /**
@@ -99,8 +105,12 @@ public class PetStore
      * Add item to the inventory list
      * @param pet {@link Pet} to be added to the inventory
      */
+
+    private int nextPetStoreId = 0;
+
     public void addPetInventoryItem(Pet pet)
     {
+        pet.setPetStoreId(nextPetStoreId++);
         this.petsForSale.add(pet);
     }
 
@@ -180,8 +190,6 @@ public class PetStore
         return petsForSale;
     }
 
-    public List<Pet> getPetsSold() {
-        return petsSold;
-    }
+
 
 }

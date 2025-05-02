@@ -67,14 +67,15 @@ public class Bird extends Pet implements PetImpl {
         return super.petHypoallergenic(this.skinType).replaceAll("pet", "bird");
     }
 
+
     public String speak() {
         String language;
-        switch (this.animalType) {
+        switch (animalType) {
             case DOMESTIC:
-                language = "The bird chirps cheerfully!";
+                language = "The bird goes tweet! tweet!";
                 break;
             case WILD:
-                language = "The bird squawks loudly!";
+                language = "The bird goes squawk! squawk!";
                 break;
             default:
                 language = "The bird goes " + super.getPetType().speak + "! " + super.getPetType().speak + "!";
